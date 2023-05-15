@@ -69,7 +69,7 @@ export default function Home({ pokemons }) {
 
         <Dropdown value={dropdownOption} onChange={handleDropdown} options={options} />
 
-        <Cards pokemons={pokemonCards} styles={styles} />
+        <Cards pokemons={pokemonCards} styles={styles}/>
 
         <button onClick={loadMore}>Load More</button>
       </main>

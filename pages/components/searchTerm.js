@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 const SearchTerm = ({ value, onChange, styles }) => {
   return (
     <div className={styles.searchContainer}>
