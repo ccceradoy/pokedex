@@ -29,19 +29,19 @@ export default function Home({ pokemons }) {
   const [dropdownOption, setDropdownOption] = useState(options[0].value);
   const handleDropdown = (event) => {
     if (event.target.value == 'ID') {
-      filteredPokemons.sort((p1, p2) => {
+      pokemonCards.sort((p1, p2) => {
         if (p1.id < p2.id) return -1;
         else if (p1.id > p2.id) return 1;
         return 0;
       });
     } else {
-      filteredPokemons.sort((p1, p2) => {
+      pokemonCards.sort((p1, p2) => {
         if (p1.name < p2.name) return -1;
         else if (p1.name > p2.name) return 1;
         return 0;
       });
     }
-    setPokemonCards(filteredPokemons);
+    setPokemonCards(pokemonCards);
     setDropdownOption(event.target.value);
   }
 
@@ -50,7 +50,7 @@ export default function Home({ pokemons }) {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${page * PAGE_SIZE}&limit=${PAGE_SIZE}`);
     const data = await res.json();
     const pokemons = await evaluateData(data);
-    setPokemonCards([...filteredPokemons, ...pokemons]);
+    setPokemonCards([...pokemonCards, ...pokemons]);
     setPage(page + 1);
   }
 
