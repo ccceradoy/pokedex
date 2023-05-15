@@ -23,7 +23,7 @@ export default function PokemonInfo({ pokemonData }) {
             pathname: '/pokemon/pokemonInfo',
             query: { id: parseInt(id) - 1 }
           }}>
-            <button>Back</button>
+            <button>Previous</button>
           </Link> : 
           null}
         <Link href={{

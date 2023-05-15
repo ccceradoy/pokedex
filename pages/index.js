@@ -11,21 +11,14 @@ export default function Home({ pokemons }) {
 
   // for filtering using the search bar
   const [searchTerm, setSearchTerm] = useState('');
-  const filteredPokemons = pokemons.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    pokemon.id.toString().includes(searchTerm)
-  );
 
   // the pokemons to be displayed are the filtered list of pokemon
-  const [ pokemonCards, setPokemonCards ] = useState(filteredPokemons);
+  const [ pokemonCards, setPokemonCards ] = useState(pokemons);
+  const [ originalData, setOriginalData ] = useState(pokemons);
+
   const handleSearchTerm = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  // update the cards whenever the value of the search term changes
-  useEffect(() => {
-    setPokemonCards(filteredPokemons);
-  }, [searchTerm]);
 
   // for dropdown
   const options = [
@@ -60,13 +53,27 @@ export default function Home({ pokemons }) {
   // for loading more pokemon
   const [page, setPage] = useState(1);
   const loadMore = async () => {
+    setPage(page + 1);
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${page * PAGE_SIZE}&limit=${PAGE_SIZE}`);
     const data = await res.json();
     const pokemons = await evaluateData(data);
     // after loading more data, append it to the current cards of pokemon
     setPokemonCards([...pokemonCards, ...pokemons]);
-    setPage(page + 1);
+    setOriginalData([...pokemonCards, ...pokemons]);
   }
+
+  // update the cards whenever the value of the search term changes
+  useEffect(() => {
+    const filteredPokemons = originalData.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      pokemon.id.toString().includes(searchTerm)
+    );
+    if (searchTerm === "") {
+      setPokemonCards(originalData);
+    } else {
+      setPokemonCards(filteredPokemons)
+    }
+  }, [searchTerm]);
 
   return (
     <div className={styles.container}>
