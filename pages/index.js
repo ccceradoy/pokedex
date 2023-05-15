@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchTerm from './components/searchTerm';
 import Cards from './components/cards';
 import Dropdown from './components/dropdown';
@@ -18,11 +18,14 @@ export default function Home({ pokemons }) {
 
   // the pokemons to be displayed are the filtered list of pokemon
   const [ pokemonCards, setPokemonCards ] = useState(filteredPokemons);
-
   const handleSearchTerm = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  // update the cards whenever the value of the search term changes
+  useEffect(() => {
+    setPokemonCards(filteredPokemons);
+  }, [searchTerm]);
 
   // for dropdown
   const options = [
