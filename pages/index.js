@@ -5,6 +5,8 @@ import SearchTerm from './components/searchTerm';
 import Cards from './components/cards';
 import Dropdown from './components/dropdown';
 
+const PAGE_SIZE = 10;
+
 export default function Home({ pokemons }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -43,6 +45,15 @@ export default function Home({ pokemons }) {
     setDropdownOption(event.target.value);
   }
 
+  const [page, setPage] = useState(1);
+  const loadMore = async () => {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${page * PAGE_SIZE}&limit=${PAGE_SIZE}`);
+    const data = await res.json();
+    const pokemons = await evaluateData(data);
+    setPokemonCards([...filteredPokemons, ...pokemons]);
+    setPage(page + 1);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -59,14 +70,14 @@ export default function Home({ pokemons }) {
         <Dropdown value={dropdownOption} onChange={handleDropdown} options={options} />
 
         <Cards pokemons={pokemonCards} styles={styles} />
+
+        <button onClick={loadMore}>Load More</button>
       </main>
     </div>
   )
 }
 
-export async function getStaticProps() {
-  const res = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=10');
-  const data = await res.json();
+const evaluateData = async (data) => {
   const pokemons = [];
 
   for (const pokemon of data.results) {
@@ -85,6 +96,13 @@ export async function getStaticProps() {
     });
   }
 
+  return pokemons;
+}
+
+export async function getStaticProps() {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${PAGE_SIZE}`);
+  const data = await res.json();
+  const pokemons = await evaluateData(data);
   return {
     props: { pokemons }
   };
