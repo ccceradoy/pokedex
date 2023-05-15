@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 const Cards = ({ pokemons, styles }) => {
-
   return (
     <div className={styles.grid}>
       {pokemons.map((pokemon) => (

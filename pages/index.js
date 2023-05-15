@@ -8,25 +8,32 @@ import Dropdown from './components/dropdown';
 const PAGE_SIZE = 10;
 
 export default function Home({ pokemons }) {
-  const [searchTerm, setSearchTerm] = useState('');
 
+  // for filtering using the search bar
+  const [searchTerm, setSearchTerm] = useState('');
   const filteredPokemons = pokemons.filter((pokemon) =>
     pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     pokemon.id.toString().includes(searchTerm)
   );
 
+  // the pokemons to be displayed are the filtered list of pokemon
   const [ pokemonCards, setPokemonCards ] = useState(filteredPokemons);
 
   const handleSearchTerm = (event) => {
     setSearchTerm(event.target.value);
   };
 
+
+  // for dropdown
   const options = [
     { value: 'ID', label: 'ID' },
     { value: 'Name', label: 'Name' },
   ];
 
+  // initially set to ID
   const [dropdownOption, setDropdownOption] = useState(options[0].value);
+  // when dropdown value is triggered, do the sort according to the
+  // new value of the dropdown
   const handleDropdown = (event) => {
     if (event.target.value == 'ID') {
       pokemonCards.sort((p1, p2) => {
@@ -41,15 +48,19 @@ export default function Home({ pokemons }) {
         return 0;
       });
     }
+    // then update the (ordering) of the pokemons
+    // trigering a rerender
     setPokemonCards(pokemonCards);
     setDropdownOption(event.target.value);
   }
 
+  // for loading more pokemon
   const [page, setPage] = useState(1);
   const loadMore = async () => {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${page * PAGE_SIZE}&limit=${PAGE_SIZE}`);
     const data = await res.json();
     const pokemons = await evaluateData(data);
+    // after loading more data, append it to the current cards of pokemon
     setPokemonCards([...pokemonCards, ...pokemons]);
     setPage(page + 1);
   }
@@ -77,9 +88,11 @@ export default function Home({ pokemons }) {
   )
 }
 
+// a helper function
 const evaluateData = async (data) => {
   const pokemons = [];
 
+  // fetch further info because each element of data.result is only { name, url }
   for (const pokemon of data.results) {
     const resPokemon = await fetch(pokemon.url);
     const pokemonInfo = await resPokemon.json();

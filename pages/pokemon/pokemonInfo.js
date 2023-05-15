@@ -37,6 +37,7 @@ export default function PokemonInfo({ pokemonData }) {
   );
 }
 
+// make a call to the type endpoint to get the pokemon's weakness and strength
 const getTypeRelationship = async (types) => {
   const weakAgainst = [];
   const strongAgainst = [];
@@ -54,10 +55,12 @@ const getTypeRelationship = async (types) => {
     });
   }
 
+  // put it in a set to avoid duplicates
   return [Array.from(new Set(weakAgainst)), Array.from(new Set(strongAgainst))];
 }
 
 
+// make a call according to this id
 export async function getServerSideProps(context) {
   const { id } = context.query;
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
