@@ -1,12 +1,12 @@
-const SearchTerm = ({ value, onChange, styles }) => {
+const SearchTerm = ({ value, onChange }) => {
   return (
-    <div className={styles.searchContainer}>
+    <div>
       <input
+        id="input"
         type="text"
-        placeholder="Search by name or id"
+        placeholder="Search for Name or ID"
         value={value}
         onChange={onChange}
-        className={styles.searchInput}
       />
     </div>
   );

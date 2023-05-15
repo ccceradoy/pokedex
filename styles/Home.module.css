@@ -83,6 +83,20 @@
   height: 1em;
 }
 
+.headers {
+  background-color: red;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

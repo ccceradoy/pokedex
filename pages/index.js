@@ -79,13 +79,16 @@ export default function Home({ pokemons }) {
           Pokedex
         </h1>
 
-        <SearchTerm value={searchTerm} onChange={handleSearchTerm} styles={styles} />
+        <div className={`${styles.filters}`}>
+          <SearchTerm value={searchTerm} onChange={handleSearchTerm} styles={styles} />
+          <Dropdown value={dropdownOption} onChange={handleDropdown} options={options} />
+        </div>
 
-        <Dropdown value={dropdownOption} onChange={handleDropdown} options={options} />
+        <Cards pokemons={pokemonCards} />
 
-        <Cards pokemons={pokemonCards} styles={styles}/>
-
-        <button onClick={loadMore}>Load More</button>
+        <div className={`${styles.center}`}>
+          <button onClick={loadMore}>Load More</button>
+        </div>
       </main>
     </div>
   )

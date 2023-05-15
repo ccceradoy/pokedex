@@ -1,7 +1,7 @@
 const Dropdown = ({ value, onChange, options }) => {
   return (
-    <>
-      <h2>Sort by: </h2>
+    <div>
+    <h2 style={{ display: 'inline', fontSize: '16px'}}>Sort by: </h2>
       <select value={value} onChange={onChange}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -9,7 +9,7 @@ const Dropdown = ({ value, onChange, options }) => {
           </option>
         ))}
       </select>
-    </>
+    </div>
   );
 }
 

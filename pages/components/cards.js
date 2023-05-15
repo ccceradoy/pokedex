@@ -1,6 +1,7 @@
 import Link from "next/link";
+import styles from "../../styles/Cards.module.css"
 
-const Cards = ({ pokemons, styles }) => {
+const Cards = ({ pokemons }) => {
   return (
     <div className={styles.grid}>
       {pokemons.map((pokemon) => (
