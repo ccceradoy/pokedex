@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import Link from "next/link";
+import styles from "../../styles/PokemonInfo.module.css";
+
 export default function PokemonInfo({ pokemonData }) {
   const router = useRouter();
   const { id } = router.query;
@@ -9,7 +11,7 @@ export default function PokemonInfo({ pokemonData }) {
       <Link href='/'>
         <button>Back</button>
       </Link>
-      <div>
+      <div className={styles.main}>
         <h2>ID: {pokemonData.id}</h2>
         <h2>Name: {pokemonData.name}</h2>
         <h2>Type: {pokemonData.types}</h2>
@@ -17,7 +19,7 @@ export default function PokemonInfo({ pokemonData }) {
         <h2>Strong against: {pokemonData.strongAgainst}</h2>
         <img src={pokemonData.image} alt={pokemonData.image} />
       </div>
-      <div>
+      <div className={styles.buttons}>
         {id > 1 ? 
           <Link href={{
             pathname: '/pokemon/pokemonInfo',
